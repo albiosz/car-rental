@@ -3,7 +3,7 @@ name: Deploy to Amazon ECS
 on:
   push:
     branches: ["main"]
-    paths: ["car/**"]
+    paths: ["car-rental-service/**"]
   # Allow manual triggering
   workflow_dispatch:
 
@@ -13,9 +13,9 @@ env:
   ECR_REPOSITORY: se-project
   ECS_SERVICE: car-rental-service
   ECS_CLUSTER: se-project
-  ECS_TASK_DEFINITION: ./backend/.aws/task-definition.json
+  ECS_TASK_DEFINITION: ./car-rental-service/.aws/task-definition.json
   CONTAINER_NAME: car-rental-service
-  AWS_ACCESS_KEY_ID: AKIASU566MREC7CRJNPA
+  AWS_ACCESS_KEY_ID: AKIASU566MREKZGVE23B
 
 permissions:
   contents: read
@@ -46,7 +46,7 @@ jobs:
           # Build a docker container and
           # push it to ECR so that it can
           # be deployed to ECS.
-          docker build -t ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY}}:latest ./backend
+          docker build -t ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY}}:latest ./car-rental-service
           docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY}}:latest
           echo "image=${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY}}:latest" >> $GITHUB_OUTPUT
 
