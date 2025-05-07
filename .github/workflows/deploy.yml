@@ -10,15 +10,15 @@ on:
 env:
   AWS_REGION: eu-central-1
   ECR_REGISTRY: 182399689800.dkr.ecr.eu-central-1.amazonaws.com
-  ECR_REPOSITORY: se-project
+  ECR_REPOSITORY: car-rental/car-rental-service
   AWS_ACCESS_KEY_ID: AKIASU566MREKZGVE23B
 
 permissions:
   contents: read
 
 jobs:
-  deploy:
-    name: Deploy Car Rental Service
+  push-car-rental-services-image:
+    name: Push Car Rental Service Image to ECR registry
     runs-on: ubuntu-latest
 
     steps:
