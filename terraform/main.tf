@@ -37,3 +37,11 @@ module "internal_alb_security_group" {
   alb_from_port = var.internal_alb_from_port
   alb_to_port   = var.internal_alb_to_port
 }
+
+module "security_groups_services" {
+  for_each              = var.services
+  source                = "./security_groups/services"
+  vpc_id                = module.vpc.vpc_id
+  service_port          = each.value.container_port
+  alb_security_group_id = each.value.is_public ? module.public_alb_security_group.security_group_id : module.internal_alb_security_group.security_group_id
+}

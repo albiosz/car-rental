@@ -88,3 +88,18 @@ variable "internal_alb_to_port" {
   type        = number
   default     = 8080
 }
+
+variable "services" {
+  type = map(object({
+    name           = string
+    is_public      = bool
+    container_port = number
+    # cpu = number
+    # memory = number
+    # image = string
+
+    alb_target_group = object({
+      health_check_path = string
+    })
+  }))
+}

@@ -30,7 +30,7 @@ resource "aws_ecs_service" "car_rental_service" {
   launch_type     = "FARGATE"
 
   network_configuration {
-    security_groups  = [aws_security_group.ecs_tasks.id]
+    security_groups  = [module.security_groups_services["car_rental_service"].security_group_id]
     subnets          = module.vpc.private_subnets
     assign_public_ip = false
   }
