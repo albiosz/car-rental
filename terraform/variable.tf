@@ -70,3 +70,21 @@ variable "availability_zones" {
   type        = list(string)
   default     = ["eu-central-1a", "eu-central-1b"]
 }
+
+variable "public_alb_port" {
+  description = "The port the ALB listens on"
+  type        = number
+  default     = 80
+}
+
+variable "internal_alb_from_port" {
+  description = "The minimum port the ALB listens on"
+  type        = number
+  default     = 8000
+}
+
+variable "internal_alb_to_port" {
+  description = "The maximum port the ALB listens on"
+  type        = number
+  default     = 8080
+}

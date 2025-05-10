@@ -26,6 +26,14 @@ module "vpc" {
 }
 
 module "public_alb_security_group" {
-  source = "./security/public_alb_security_group"
-  vpc_id = module.vpc.vpc_id
+  source   = "./security_groups/public_alb"
+  vpc_id   = module.vpc.vpc_id
+  alb_port = var.public_alb_port
+}
+
+module "internal_alb_security_group" {
+  source        = "./security_groups/internal_alb"
+  vpc_id        = module.vpc.vpc_id
+  alb_from_port = var.internal_alb_from_port
+  alb_to_port   = var.internal_alb_to_port
 }
