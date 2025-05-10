@@ -2,7 +2,7 @@ resource "aws_lb" "internet_facing" {
   load_balancer_type = "application"
   name               = "car-rental-service"
   subnets            = module.vpc.public_subnets
-  security_groups    = [aws_security_group.lb.id]
+  security_groups    = [module.public_alb_security_group.security_group_id]
   internal           = false
 }
 

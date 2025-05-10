@@ -24,3 +24,8 @@ module "vpc" {
   private_subnets    = var.private_subnets
   public_subnets     = var.public_subnets
 }
+
+module "public_alb_security_group" {
+  source = "./security/public_alb_security_group"
+  vpc_id = module.vpc.vpc_id
+}
