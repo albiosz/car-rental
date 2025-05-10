@@ -74,7 +74,7 @@ variable "availability_zones" {
 variable "public_alb_port" {
   description = "The port the ALB listens on"
   type        = number
-  default     = 80
+  default     = 8000
 }
 
 variable "internal_alb_from_port" {
@@ -94,12 +94,15 @@ variable "services" {
     name           = string
     is_public      = bool
     container_port = number
-    # cpu = number
-    # memory = number
-    # image = string
+    template_link  = string
+    fargate_cpu    = number
+    fargate_memory = number
+    app_image      = string
 
     alb_target_group = object({
       health_check_path = string
+      container_port    = number
+      path_pattern      = string
     })
   }))
 }
