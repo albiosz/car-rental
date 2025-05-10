@@ -12,3 +12,11 @@ provider "aws" {
   access_key = var.aws_access_key
   secret_key = var.aws_secret_key
 }
+
+module "vpc" {
+  source             = "./vpc"
+  cidr               = var.vpc_cidr
+  availability_zones = var.availability_zones
+  private_subnets    = var.private_subnets
+  public_subnets     = var.public_subnets
+}

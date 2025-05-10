@@ -1,4 +1,22 @@
-# variables.tf
+
+variable "vpc_cidr" {
+  description = "The CIDR block for the VPC"
+  type        = string
+  default     = "172.17.0.0/16"
+}
+
+variable "private_subnets" {
+  description = "The private subnets for the VPC"
+  type        = list(string)
+  default     = ["172.17.1.0/24", "172.17.2.0/24"]
+}
+
+variable "public_subnets" {
+  description = "The public subnets for the VPC"
+  type        = list(string)
+  default     = ["172.17.101.0/24", "172.17.102.0/24"]
+}
+
 
 variable "aws_access_key" {
   description = "The IAM public access key"
@@ -22,11 +40,6 @@ variable "ecs_auto_scale_role_name" {
   default     = "myEcsAutoScaleRole"
 }
 
-variable "az_count" {
-  description = "Number of AZs to cover in a given region"
-  default     = "2"
-}
-
 variable "app_image" {
   description = "Docker image to run in the ECS cluster"
   default     = "bradfordhamilton/crystal_blockchain:latest"
@@ -36,11 +49,6 @@ variable "app_port" {
   description = "Port exposed by the docker image to redirect traffic to"
   default     = 8000
 
-}
-
-variable "app_count" {
-  description = "Number of docker containers to run"
-  default     = 3
 }
 
 variable "health_check_path" {
@@ -57,7 +65,7 @@ variable "fargate_memory" {
   default     = "2048"
 }
 
-variable "azs" {
+variable "availability_zones" {
   description = "AZs to deploy"
   type        = list(string)
   default     = ["eu-central-1a", "eu-central-1b"]

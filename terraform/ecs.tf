@@ -1,9 +1,9 @@
-resource "aws_ecs_cluster" "main" {
-  name = "cb-cluster"
+resource "aws_ecs_cluster" "car_rental" {
+  name = "car-rental"
 }
 
-resource "aws_ecs_task_definition" "app" {
-  family                   = "cb-app-task"
+resource "aws_ecs_task_definition" "car_rental_service" {
+  family                   = "car-rental-service"
   execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
@@ -22,24 +22,24 @@ resource "aws_ecs_task_definition" "app" {
   )
 }
 
-resource "aws_ecs_service" "cb-service" {
-  name            = "cb-service"
-  cluster         = aws_ecs_cluster.main.id
-  task_definition = aws_ecs_task_definition.app.arn
+resource "aws_ecs_service" "car_rental_service" {
+  name            = "car-rental-service"
+  cluster         = aws_ecs_cluster.car_rental.id
+  task_definition = aws_ecs_task_definition.car_rental_service.arn
   desired_count   = 1
   launch_type     = "FARGATE"
 
   network_configuration {
     security_groups  = [aws_security_group.ecs_tasks.id]
-    subnets          = aws_subnet.private.*.id
-    assign_public_ip = true
+    subnets          = module.vpc.private_subnets
+    assign_public_ip = false
   }
 
   load_balancer {
-    target_group_arn = aws_lb_target_group.app.arn
+    target_group_arn = aws_lb_target_group.car_rental_service.arn
     container_name   = "car-rental-service"
     container_port   = var.app_port
   }
 
-  depends_on = [aws_lb_listener.name, aws_iam_role_policy_attachment.ecs-task-execution-role-policy-attachment]
+  depends_on = [aws_lb_listener.internet_facing, aws_iam_role_policy_attachment.ecs-task-execution-role-policy-attachment]
 }

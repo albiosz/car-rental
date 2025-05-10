@@ -1,3 +1,3 @@
 output "alb_hostname" {
-  value = aws_lb.main.dns_name
+  value = aws_lb.internet_facing.dns_name
 }

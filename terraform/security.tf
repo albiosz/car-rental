@@ -1,26 +1,12 @@
 # ALB security Group
 resource "aws_security_group" "lb" {
-  name   = "load-balancer-security-group"
-  vpc_id = aws_vpc.ecs.id
+  name   = "car-rental-service-load-balancer"
+  vpc_id = module.vpc.vpc_id
 
   tags = {
-    Name = "ALB-Security-Group"
+    Name = "car-rental-service-load-balancer"
   }
 }
-
-# resource "aws_vpc_security_group_ingress_rule" "lb_allow_all" {
-#   security_group_id = aws_security_group.lb.id
-#   ip_protocol       = "-1"
-#   cidr_ipv4         = "0.0.0.0/0"
-# }
-
-# resource "aws_vpc_security_group_ingress_rule" "allow_app_port" {
-#   security_group_id = aws_security_group.lb.id
-#   cidr_ipv4         = "0.0.0.0/0"
-#   from_port         = var.app_port
-#   ip_protocol       = "tcp"
-#   to_port           = var.app_port
-# }
 
 # Load Balancer is available under port 80
 resource "aws_vpc_security_group_ingress_rule" "allow_80" {
@@ -31,13 +17,13 @@ resource "aws_vpc_security_group_ingress_rule" "allow_80" {
   to_port           = 80
 }
 
-resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv4" {
+resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv4_1" {
   security_group_id = aws_security_group.lb.id
   cidr_ipv4         = "0.0.0.0/0"
   ip_protocol       = "-1" # semantically equivalent to all ports / all protocols
 }
 
-resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv6" {
+resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv6_1" {
   security_group_id = aws_security_group.lb.id
   cidr_ipv6         = "::/0"
   ip_protocol       = "-1" # semantically equivalent to all ports / all protocols
@@ -46,15 +32,9 @@ resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv6" {
 
 # Traffic to the ECS cluster should only come from the ALB
 resource "aws_security_group" "ecs_tasks" {
-  name   = "ecs-tasks-security-group"
-  vpc_id = aws_vpc.ecs.id
+  name   = "car-rental-service-ecs-tasks"
+  vpc_id = module.vpc.vpc_id
 }
-
-# resource "aws_vpc_security_group_ingress_rule" "ecs_allow_all" {
-#   security_group_id = aws_security_group.ecs_tasks.id
-#   ip_protocol       = "-1"
-#   cidr_ipv4         = "0.0.0.0/0"
-# }
 
 resource "aws_vpc_security_group_ingress_rule" "allow_alb" {
   security_group_id            = aws_security_group.ecs_tasks.id
@@ -72,13 +52,13 @@ resource "aws_vpc_security_group_ingress_rule" "allow_alb" {
 #   to_port           = var.app_port
 # }
 
-resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv41" {
+resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv4_2" {
   security_group_id = aws_security_group.ecs_tasks.id
   cidr_ipv4         = "0.0.0.0/0"
   ip_protocol       = "-1" # semantically equivalent to all ports / all protocols
 }
 
-resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv61" {
+resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv6_2" {
   security_group_id = aws_security_group.ecs_tasks.id
   cidr_ipv6         = "::/0"
   ip_protocol       = "-1" # semantically equivalent to all ports / all protocols

@@ -1,14 +1,14 @@
 
-resource "aws_cloudwatch_log_group" "cb_log_group" {
-  name              = "/ecs/cb-app"
+resource "aws_cloudwatch_log_group" "car_rental_service" {
+  name              = "/ecs/car-rental-service"
   retention_in_days = 30
 
   tags = {
-    name = "cb-log-group"
+    name = "car-rental-service"
   }
 }
 
-resource "aws_cloudwatch_log_stream" "cb_log_stream" {
-  name           = "cb-log-stream"
-  log_group_name = aws_cloudwatch_log_group.cb_log_group.name
+resource "aws_cloudwatch_log_stream" "car_rental_service" {
+  name           = "car-rental-service"
+  log_group_name = aws_cloudwatch_log_group.car_rental_service.name
 }
