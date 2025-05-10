@@ -4,7 +4,7 @@ resource "aws_ecs_cluster" "car_rental" {
 
 resource "aws_ecs_task_definition" "car_rental_service" {
   family                   = "car-rental-service"
-  execution_role_arn       = aws_iam_role.ecs_task_execution_role.arn
+  execution_role_arn       = module.iam.ecs_task_execution_role_arn
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
   cpu                      = var.fargate_cpu
@@ -41,5 +41,5 @@ resource "aws_ecs_service" "car_rental_service" {
     container_port   = var.app_port
   }
 
-  depends_on = [aws_lb_listener.internet_facing, aws_iam_role_policy_attachment.ecs-task-execution-role-policy-attachment]
+  depends_on = [aws_lb_listener.internet_facing]
 }
