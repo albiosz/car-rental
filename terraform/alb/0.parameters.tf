@@ -32,8 +32,3 @@ variable "target_groups" {
   }))
   description = "The target groups to deploy the ALB in"
 }
-
-variable "listener_port" {
-  type        = number
-  description = "The port the listener listens on"
-}

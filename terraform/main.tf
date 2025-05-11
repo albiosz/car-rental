@@ -28,7 +28,7 @@ module "vpc" {
 module "public_alb_security_group" {
   source   = "./security_groups/public_alb"
   vpc_id   = module.vpc.vpc_id
-  alb_port = var.public_alb_port
+  alb_port = var.services["car-rental-service"].container_port
 }
 
 module "internal_alb_security_group" {
@@ -65,7 +65,6 @@ module "internal_alb" {
   subnets           = module.vpc.private_subnets
   security_group_id = module.internal_alb_security_group.security_group_id
   target_groups     = local.internal_alb_target_groups
-  listener_port     = var.internal_alb_from_port
 }
 
 module "public_alb" {
@@ -76,7 +75,6 @@ module "public_alb" {
   subnets           = module.vpc.public_subnets
   security_group_id = module.public_alb_security_group.security_group_id
   target_groups     = local.public_alb_target_groups
-  listener_port     = var.public_alb_port
 }
 
 resource "aws_ecs_cluster" "car_rental" {
