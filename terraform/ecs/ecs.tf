@@ -15,6 +15,8 @@ resource "aws_ecs_task_definition" "car_rental" {
       app_port              = var.container_port
       aws_region            = var.aws_region
       internal_alb_dns_name = var.internal_alb_dns_name
+      cognito_user_pool_id  = var.cognito_user_pool_id
+      cognito_client_id     = var.cognito_client_id
     }
   )
 }

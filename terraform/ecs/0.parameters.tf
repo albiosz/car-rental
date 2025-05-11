@@ -48,10 +48,7 @@ variable "alb_target_group_arn" {
   description = "The ARN of the ALB target group"
 }
 
-variable "internal_alb_dns_name" {
-  type        = string
-  description = "The DNS name of the internal ALB"
-}
+
 
 variable "security_group_id" {
   type        = string
@@ -61,4 +58,18 @@ variable "security_group_id" {
 variable "private_subnets" {
   type        = list(string)
   description = "The private subnets of the VPC"
+}
+
+# car rental only service parameters
+variable "internal_alb_dns_name" {
+  type        = string
+  description = "The DNS name of the internal ALB"
+}
+
+variable "cognito_user_pool_id" {
+  type = string
+}
+
+variable "cognito_client_id" {
+  type = string
 }

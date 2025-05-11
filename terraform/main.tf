@@ -81,6 +81,10 @@ resource "aws_ecs_cluster" "car_rental" {
   name = "car-rental"
 }
 
+module "cognito" {
+  source = "./cognito"
+}
+
 module "services" {
   for_each                    = var.services
   source                      = "./ecs"
@@ -97,4 +101,9 @@ module "services" {
   security_group_id           = module.security_groups_services[each.key].security_group_id
   private_subnets             = module.vpc.private_subnets
   internal_alb_dns_name       = module.internal_alb.alb_dns_name
+  # only car rental service attributes
+  cognito_user_pool_id = module.cognito.user-pool-id
+  cognito_client_id    = module.cognito.car-rental-service-client-id
 }
+
+
