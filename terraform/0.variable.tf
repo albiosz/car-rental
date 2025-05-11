@@ -17,7 +17,6 @@ variable "public_subnets" {
   default     = ["172.17.101.0/24", "172.17.102.0/24"]
 }
 
-
 variable "aws_access_key" {
   description = "The IAM public access key"
 }

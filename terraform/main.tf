@@ -40,6 +40,7 @@ module "internal_alb_security_group" {
 
 module "security_groups_services" {
   for_each              = var.services
+  name                  = each.key
   source                = "./security_groups/services"
   vpc_id                = module.vpc.vpc_id
   service_port          = each.value.container_port
@@ -85,6 +86,7 @@ resource "aws_ecs_cluster" "car_rental" {
 module "services" {
   for_each                    = var.services
   source                      = "./ecs"
+  name                        = each.key
   cluster_id                  = aws_ecs_cluster.car_rental.id
   template_link               = each.value.template_link
   ecs_task_execution_role_arn = module.iam.ecs_task_execution_role_arn
@@ -96,4 +98,5 @@ module "services" {
   alb_target_group_arn        = each.value.is_public ? module.public_alb.target_group_arns[each.key] : module.internal_alb.target_group_arns[each.key]
   security_group_id           = module.security_groups_services[each.key].security_group_id
   private_subnets             = module.vpc.private_subnets
+  internal_alb_dns_name       = module.internal_alb.alb_dns_name
 }

@@ -1,6 +1,6 @@
 # Traffic to the ECS cluster should only come from the ALB
 resource "aws_security_group" "ecs_tasks" {
-  name   = "car-rental-service-ecs-tasks"
+  name   = var.name
   vpc_id = var.vpc_id
 }
 

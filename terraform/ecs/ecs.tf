@@ -1,7 +1,7 @@
 
 
-resource "aws_ecs_task_definition" "car_rental_service" {
-  family                   = "car-rental-service"
+resource "aws_ecs_task_definition" "car_rental" {
+  family                   = var.name
   execution_role_arn       = var.ecs_task_execution_role_arn
   network_mode             = "awsvpc"
   requires_compatibilities = ["FARGATE"]
@@ -11,19 +11,18 @@ resource "aws_ecs_task_definition" "car_rental_service" {
     #  it just takes takes the data in the file and replaces the placeholders with the values from variables
     var.template_link,
     {
-      app_image      = var.app_image
-      app_port       = var.container_port
-      fargate_cpu    = var.fargate_cpu
-      fargate_memory = var.fargate_memory
-      aws_region     = var.aws_region
+      app_image             = var.app_image
+      app_port              = var.container_port
+      aws_region            = var.aws_region
+      internal_alb_dns_name = var.internal_alb_dns_name
     }
   )
 }
 
-resource "aws_ecs_service" "car_rental_service" {
-  name            = "car-rental-service"
+resource "aws_ecs_service" "car_rental" {
+  name            = var.name
   cluster         = var.cluster_id
-  task_definition = aws_ecs_task_definition.car_rental_service.arn
+  task_definition = aws_ecs_task_definition.car_rental.arn
   desired_count   = 1
   launch_type     = "FARGATE"
 
@@ -35,7 +34,7 @@ resource "aws_ecs_service" "car_rental_service" {
 
   load_balancer {
     target_group_arn = var.alb_target_group_arn
-    container_name   = "car-rental-service"
+    container_name   = var.name
     container_port   = var.container_port
   }
 

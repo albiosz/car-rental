@@ -1,3 +1,8 @@
+variable "name" {
+  type        = string
+  description = "The name of the service"
+}
+
 variable "cluster_id" {
   type        = string
   description = "The ID of the ECS cluster"
@@ -41,6 +46,11 @@ variable "aws_region" {
 variable "alb_target_group_arn" {
   type        = string
   description = "The ARN of the ALB target group"
+}
+
+variable "internal_alb_dns_name" {
+  type        = string
+  description = "The DNS name of the internal ALB"
 }
 
 variable "security_group_id" {
