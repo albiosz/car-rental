@@ -17,6 +17,8 @@ resource "aws_ecs_task_definition" "car_rental" {
       internal_alb_dns_name = var.internal_alb_dns_name
       cognito_user_pool_id  = var.cognito_user_pool_id
       cognito_client_id     = var.cognito_client_id
+      cognito_client_secret = var.cognito_client_secret
+      cognito_domain_prefix = var.cognito_domain_prefix
     }
   )
 }

@@ -1,9 +1,12 @@
 spring.application.name: currency-converter
 
 spring:
+  config:
+    import: optional:file:.env[.properties] # reads .env file and sets the values in the file
+
   security:
     oauth2:
       resourceserver:
         jwt:
-          jwk-set-uri: https://dev-nrarsg0w7pf50t7d.us.auth0.com/.well-known/jwks.json
-          issuer-uri: https://dev-nrarsg0w7pf50t7d.us.auth0.com/
+          jwk-set-uri: https://cognito-idp.${COGNITO_REGION}.amazonaws.com/${COGNITO_USER_POOL_ID}/.well-known/jwks.json
+          issuer-uri: https://cognito-idp.${COGNITO_REGION}.amazonaws.com/${COGNITO_USER_POOL_ID}

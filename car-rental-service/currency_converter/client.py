@@ -45,19 +45,19 @@ class CurrencyConverterClient:
             raise CurrencyServiceUnavailableException(str(e))
 
 def get_jwt_token() -> str:
-    client_id = os.getenv("AUTH0_CURRENCY_CONVERTER_CLIENT_ID")
-    client_secret = os.getenv("AUTH0_CURRENCY_CONVERTER_CLIENT_SECRET")
+    cognito_client_id = os.getenv("COGNITO_CLIENT_ID")
+    cognito_client_secret = os.getenv("COGNITO_CLIENT_SECRET")
+    cognito_domain_prefix = os.getenv("COGNITO_DOMAIN_PREFIX")
+    cognito_region = os.getenv("COGNITO_REGION")
+
+    if cognito_client_id is None or cognito_client_secret is None or cognito_domain_prefix is None or cognito_region is None:
+        raise CurrencyServiceUnavailableException("Cognito env variables not set!")
 
     try:
         response = requests.post(
-            'https://dev-nrarsg0w7pf50t7d.us.auth0.com/oauth/token',
-            json= {
-                "client_id": client_id,
-                "client_secret": client_secret,
-                "audience": "https://dev-nrarsg0w7pf50t7d.us.auth0.com/api/v2/",
-                "grant_type": "client_credentials"
-            },
-            headers={'content-type': 'application/json'}
+           f'https://{cognito_domain_prefix}.auth.{cognito_region}.amazoncognito.com/oauth2/token',
+            data=f"grant_type=client_credentials&client_id={cognito_client_id}&client_secret={cognito_client_secret}&scope=currency-converter/read",
+            headers={'Content-Type': 'application/x-www-form-urlencoded'}
         )
         
         if response.status_code != 200:

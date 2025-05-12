@@ -73,3 +73,13 @@ variable "cognito_user_pool_id" {
 variable "cognito_client_id" {
   type = string
 }
+
+variable "cognito_client_secret" {
+  type = string
+}
+
+variable "cognito_domain_prefix" {
+  type        = string
+  description = "The prefix in the domain for token endpoints e.g. https://{prefix}.auth.eu-central.amazoncognito.com/oauth2/token"
+  default     = "car-rental"
+}

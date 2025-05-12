@@ -22,6 +22,16 @@
       "awslogs-stream-prefix": "ecs"
     },
     "secretOptions": []
-    }
+    },
+    "environment": [
+      {
+        "name": "COGNITO_REGION",
+        "value": "${aws_region}"
+      },
+      {
+        "name": "COGNITO_USER_POOL_ID",
+        "value": "${cognito_user_pool_id}"
+      }
+    ]
   }
 ]

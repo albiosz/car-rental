@@ -6,15 +6,11 @@ from jwt import PyJWKClient
 from exceptions.auth import ConfigurationError, InvalidTokenException
 
 # Cognito configuration
-COGNITO_REGION = os.getenv("COGNITO_REGION", "eu-north-1")
+COGNITO_REGION = os.getenv("COGNITO_REGION", "eu-central-1")
 COGNITO_USER_POOL_ID = os.getenv("COGNITO_USER_POOL_ID")
-COGNITO_CLIENT_ID = os.getenv("COGNITO_CLIENT_ID")
 
 if not COGNITO_USER_POOL_ID:
     raise ConfigurationError("Missing required environment variable: COGNITO_USER_POOL_ID")
-
-if not COGNITO_CLIENT_ID:
-    raise ConfigurationError("Missing required environment variable: COGNITO_CLIENT_ID")
 
 
 # JWKS URL

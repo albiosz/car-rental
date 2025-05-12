@@ -14,10 +14,12 @@ def load_env():
     dotenv.load_dotenv()
 
 @pytest.fixture(scope="session")
-def check_credentials():
-    if not (os.getenv("AUTH0_CURRENCY_CONVERTER_CLIENT_ID") and 
-            os.getenv("AUTH0_CURRENCY_CONVERTER_CLIENT_SECRET")):
-        pytest.skip("AUTH0 credentials not set in environment variables")
+def check_credentials(load_env):
+    if not (os.getenv("COGNITO_CLIENT_ID") and 
+            os.getenv("COGNITO_CLIENT_SECRET") and
+            os.getenv("COGNITO_DOMAIN_PREFIX") and
+            os.getenv("COGNITO_REGION")):
+        pytest.skip("COGNITO credentials not set in environment variables")
 
 @pytest.fixture(scope="session")
 def jwt_token(check_credentials):
@@ -35,7 +37,7 @@ def currency_converter_client_fake_token():
 def currency_converter_client():
     return CurrencyConverterClient()
 
-def test_get_jwt_token_integration(check_credentials):
+def test_get_jwt_token_integration(load_env):
     """Integration test for get_jwt_token function.
     This test will use the real AUTH0 API to get a JWT token.
     """
