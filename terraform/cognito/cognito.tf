@@ -34,6 +34,7 @@ resource "aws_cognito_user_pool_domain" "car-rental" {
   user_pool_id = aws_cognito_user_pool.car-rental.id
 }
 
+# Client for the car-rental-service
 resource "aws_cognito_user_pool_client" "car-rental-service" {
   name            = "car-rental-service"
   user_pool_id    = aws_cognito_user_pool.car-rental.id
@@ -59,26 +60,6 @@ resource "aws_cognito_user_pool_client" "car-rental-service" {
     access_token  = "hours"
     refresh_token = "days"
   }
-}
-
-resource "null_resource" "create_initial_user" {
-  provisioner "local-exec" {
-    command = <<EOT
-      aws cognito-idp admin-create-user \
-        --user-pool-id ${aws_cognito_user_pool.car-rental.id} \
-        --username testuser@example.com \
-        --user-attributes Name=email,Value=testuser@example.com Name=email_verified,Value=true \
-        --message-action SUPPRESS
-
-      aws cognito-idp admin-set-user-password \
-        --user-pool-id ${aws_cognito_user_pool.car-rental.id} \
-        --username testuser@example.com \
-        --password "P@ssw0rd123" \
-        --permanent
-    EOT
-  }
-
-  depends_on = [aws_cognito_user_pool.car-rental]
 }
 
 
