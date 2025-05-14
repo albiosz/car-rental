@@ -11,6 +11,9 @@ resource "aws_cognito_user" "testuser" {
   attributes = {
     email          = "testuser@example.com"
     email_verified = true
+    name           = "Test User"
+    family_name    = "User"
+    phone_number   = "+1234567890"
   }
 
   depends_on = [aws_cognito_user_pool.car-rental]

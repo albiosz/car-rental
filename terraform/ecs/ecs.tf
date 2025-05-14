@@ -19,6 +19,10 @@ resource "aws_ecs_task_definition" "car_rental" {
       cognito_client_id     = var.cognito_client_id
       cognito_client_secret = var.cognito_client_secret
       cognito_domain_prefix = var.cognito_domain_prefix
+      db_host               = var.db_host
+      db_port               = var.db_port
+      db_name               = var.db_name
+      db_username           = var.db_username
     }
   )
 }

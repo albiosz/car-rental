@@ -83,3 +83,24 @@ variable "cognito_domain_prefix" {
   description = "The prefix in the domain for token endpoints e.g. https://{prefix}.auth.eu-central.amazoncognito.com/oauth2/token"
   default     = "car-rental"
 }
+
+# car rental service database parameters
+variable "db_host" {
+  type        = string
+  description = "The host of the database"
+}
+
+variable "db_port" {
+  type        = number
+  description = "The port of the database"
+}
+
+variable "db_name" {
+  type        = string
+  description = "The name of the database"
+}
+
+variable "db_username" {
+  type        = string
+  description = "The username of the database"
+}

@@ -15,7 +15,23 @@ resource "aws_cognito_user_pool" "car-rental" {
     email_message        = "Your confirmation code is {####}"
   }
 
-  # skipped schema for now
+  schema {
+    name                = "name"
+    attribute_data_type = "String"
+    required            = false
+  }
+
+  schema {
+    name                = "family_name"
+    attribute_data_type = "String"
+    required            = false
+  }
+
+  schema {
+    name                = "phone_number"
+    attribute_data_type = "String"
+    required            = false
+  }
 }
 
 resource "aws_cognito_resource_server" "currency-converter" {
@@ -65,11 +81,31 @@ resource "aws_cognito_user_pool_client" "car-rental-service" {
 
 # Frontend client
 resource "aws_cognito_user_pool_client" "frontend" {
-  name = "frontend"
+  name         = "frontend"
+  user_pool_id = aws_cognito_user_pool.car-rental.id
 
-  user_pool_id                  = aws_cognito_user_pool.car-rental.id
-  generate_secret               = false
-  refresh_token_validity        = 90
+  generate_secret        = false
+  id_token_validity      = 24
+  refresh_token_validity = 90
+  token_validity_units {
+    id_token      = "hours"
+    refresh_token = "days"
+  }
+
+  allowed_oauth_flows_user_pool_client = true
+  allowed_oauth_flows = [
+    "implicit",
+    "code"
+  ]
+  allowed_oauth_scopes = [
+    "openid"
+  ]
+  callback_urls = [
+    "http://localhost:8000"
+  ]
+
+  supported_identity_providers = ["COGNITO"]
+
   prevent_user_existence_errors = "ENABLED"
   explicit_auth_flows = [
     "ALLOW_REFRESH_TOKEN_AUTH",
@@ -77,3 +113,4 @@ resource "aws_cognito_user_pool_client" "frontend" {
     "ALLOW_ADMIN_USER_PASSWORD_AUTH"
   ]
 }
+

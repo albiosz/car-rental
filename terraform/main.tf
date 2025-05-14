@@ -86,6 +86,11 @@ module "cognito" {
   domain_prefix = var.cognito_domain_prefix
 }
 
+module "rds" {
+  source = "./rds"
+  vpc_id = module.vpc.vpc_id
+}
+
 module "services" {
   for_each                    = var.services
   source                      = "./ecs"
@@ -106,6 +111,10 @@ module "services" {
   cognito_user_pool_id  = module.cognito.user-pool-id
   cognito_client_id     = module.cognito.car-rental-service-client-id
   cognito_client_secret = module.cognito.car-rental-service-client-secret
+  db_host               = module.rds.host
+  db_port               = module.rds.port
+  db_name               = module.rds.db_name
+  db_username           = module.rds.username
 }
 
 
