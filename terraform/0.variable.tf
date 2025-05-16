@@ -56,6 +56,19 @@ variable "cognito_domain_prefix" {
   default     = "car-rental"
 }
 
+# RDS
+variable "do_restore_rds_from_snapshot" {
+  type        = bool
+  description = "Restore from snapshot"
+  default     = true
+}
+
+variable "rds_snapshot_identifier" {
+  type        = string
+  description = "The snapshot identifier to restore from"
+  default     = ""
+}
+
 # Services available in the cluster
 variable "services" {
   type = map(object({

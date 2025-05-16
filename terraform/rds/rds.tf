@@ -7,10 +7,11 @@ resource "aws_security_group" "rds_security_group" {
 
 resource "aws_vpc_security_group_ingress_rule" "allow_5432" {
   security_group_id = aws_security_group.rds_security_group.id
-  cidr_ipv4         = "0.0.0.0/0"
-  from_port         = 5432
-  ip_protocol       = "tcp"
-  to_port           = 5432
+  # TODO: change to private and public subnet cidr
+  cidr_ipv4   = "0.0.0.0/0"
+  from_port   = 5432
+  ip_protocol = "tcp"
+  to_port     = 5432
 }
 
 resource "aws_vpc_security_group_egress_rule" "allow_all_traffic_ipv4_1" {
@@ -32,23 +33,25 @@ resource "aws_db_subnet_group" "rds_subnet_group" {
 
 
 resource "aws_db_instance" "car_rental" {
-  identifier = "car-rental"
+  identifier     = "car-rental"
+  instance_class = "db.t4g.micro"
 
-  allocated_storage = 20
-  instance_class    = "db.t4g.micro"
-  engine            = "postgres"
-  engine_version    = "17.2"
+  allocated_storage = var.do_restore_from_snapshot ? null : 20
+  engine            = var.do_restore_from_snapshot ? null : "postgres"
+  engine_version    = var.do_restore_from_snapshot ? null : "17.2"
 
-  db_name             = "car_rental"
-  username            = "postgres"
-  password            = "mazur123"
+  db_name  = var.do_restore_from_snapshot ? null : "car_rental"
+  username = var.do_restore_from_snapshot ? null : "postgres"
+  password = var.do_restore_from_snapshot ? null : "mazur123"
+
+  snapshot_identifier = var.do_restore_from_snapshot ? var.rds_snapshot_identifier : null
+
   port                = 5432
-  publicly_accessible = true
+  publicly_accessible = false
 
   skip_final_snapshot = true
 
   vpc_security_group_ids = [aws_security_group.rds_security_group.id]
 
   db_subnet_group_name = aws_db_subnet_group.rds_subnet_group.name
-  # set vpc
 }
