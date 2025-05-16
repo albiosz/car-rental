@@ -87,8 +87,15 @@ module "cognito" {
 }
 
 module "rds" {
-  source = "./rds"
-  vpc_id = module.vpc.vpc_id
+  source     = "./rds"
+  vpc_id     = module.vpc.vpc_id
+  subnet_ids = module.vpc.private_subnets
+}
+
+module "bastion_host" {
+  source           = "./bastion_host"
+  vpc_id           = module.vpc.vpc_id
+  public_subnet_id = module.vpc.public_subnets[0]
 }
 
 module "services" {

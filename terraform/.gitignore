@@ -31,3 +31,6 @@ terraform.rc
 
 # Ignore Windows system files
 Thumbs.db
+
+# public key
+*.pub
