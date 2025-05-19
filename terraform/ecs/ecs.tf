@@ -11,18 +11,18 @@ resource "aws_ecs_task_definition" "car_rental" {
     #  it just takes takes the data in the file and replaces the placeholders with the values from variables
     var.template_link,
     {
-      app_image             = var.app_image
-      app_port              = var.container_port
-      aws_region            = var.aws_region
-      internal_alb_dns_name = var.internal_alb_dns_name
-      cognito_user_pool_id  = var.cognito_user_pool_id
-      cognito_client_id     = var.cognito_client_id
-      cognito_client_secret = var.cognito_client_secret
-      cognito_domain_prefix = var.cognito_domain_prefix
-      db_host               = var.db_host
-      db_port               = var.db_port
-      db_name               = var.db_name
-      db_username           = var.db_username
+      app_image                         = var.app_image
+      app_port                          = var.container_port
+      aws_region                        = var.aws_region
+      internal_alb_dns_name             = var.internal_alb_dns_name
+      cognito_user_pool_id              = var.cognito_user_pool_id
+      secret_manager_cognito_client_arn = var.secret_manager_cognito_client_arn
+      cognito_domain_prefix             = var.cognito_domain_prefix
+      db_host                           = var.db_host
+      db_port                           = var.db_port
+      db_name                           = var.db_name
+      db_username                       = var.db_username
+      secret_manager_rds_arn            = var.secret_manager_rds_arn
     }
   )
 }

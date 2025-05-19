@@ -70,11 +70,7 @@ variable "cognito_user_pool_id" {
   type = string
 }
 
-variable "cognito_client_id" {
-  type = string
-}
-
-variable "cognito_client_secret" {
+variable "secret_manager_cognito_client_arn" {
   type = string
 }
 
@@ -103,4 +99,9 @@ variable "db_name" {
 variable "db_username" {
   type        = string
   description = "The username of the database"
+}
+
+variable "secret_manager_rds_arn" {
+  type        = string
+  description = "The arn to the secret manager that stored the password to RDS instance"
 }

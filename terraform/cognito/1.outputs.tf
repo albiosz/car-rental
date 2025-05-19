@@ -1,11 +1,7 @@
-output "user-pool-id" {
+output "user_pool_id" {
   value = aws_cognito_user_pool.car-rental.id
 }
 
-output "car-rental-service-client-id" {
-  value = aws_cognito_user_pool_client.car-rental-service.id
-}
-
-output "car-rental-service-client-secret" {
-  value = aws_cognito_user_pool_client.car-rental-service.client_secret
+output "secret_manager_car_rental_service_cognito_client_arn" {
+  value = aws_secretsmanager_secret.car_rental_service.arn
 }

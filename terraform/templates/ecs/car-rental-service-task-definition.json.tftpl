@@ -54,14 +54,6 @@
         "value": "${cognito_user_pool_id}"
       },
       {
-        "name": "COGNITO_CLIENT_ID",
-        "value": "${cognito_client_id}"
-      },
-      {
-        "name": "COGNITO_CLIENT_SECRET",
-        "value": "${cognito_client_secret}"
-      },
-      {
         "name": "COGNITO_DOMAIN_PREFIX",
         "value": "${cognito_domain_prefix}"
       },
@@ -73,11 +65,15 @@
     "secrets": [
       {
         "name": "DB_PASSWORD",
-        "valueFrom": "arn:aws:secretsmanager:eu-central-1:182399689800:secret:car-rental-service-ecs-HVlpxn:DB_PASSWORD::"
+        "valueFrom": "${secret_manager_rds_arn}:PASSWORD::"
       },
       {
-        "name": "AUTH0_CURRENCY_CONVERTER_CLIENT_SECRET",
-        "valueFrom": "arn:aws:secretsmanager:eu-central-1:182399689800:secret:car-rental-service-ecs-HVlpxn:AUTH0_CURRENCY_CONVERTER_CLIENT_SECRET::"
+        "name": "COGNITO_CLIENT_ID",
+        "valueFrom": "${secret_manager_cognito_client_arn}:ID::"
+      },
+      {
+        "name": "COGNITO_CLIENT_SECRET",
+        "valueFrom": "${secret_manager_cognito_client_arn}:SECRET::"
       }
     ]
   }

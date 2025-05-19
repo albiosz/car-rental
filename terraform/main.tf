@@ -77,10 +77,6 @@ module "public_alb" {
   target_groups     = local.public_alb_target_groups
 }
 
-resource "aws_ecs_cluster" "car_rental" {
-  name = "car-rental"
-}
-
 module "cognito" {
   source        = "./cognito"
   domain_prefix = var.cognito_domain_prefix
@@ -100,6 +96,10 @@ module "bastion_host" {
   public_subnet_id = module.vpc.public_subnets[0]
 }
 
+resource "aws_ecs_cluster" "car_rental" {
+  name = "car-rental"
+}
+
 module "services" {
   for_each                    = var.services
   source                      = "./ecs"
@@ -117,13 +117,13 @@ module "services" {
   private_subnets             = module.vpc.private_subnets
   internal_alb_dns_name       = module.internal_alb.alb_dns_name
   # only car rental service attributes
-  cognito_user_pool_id  = module.cognito.user-pool-id
-  cognito_client_id     = module.cognito.car-rental-service-client-id
-  cognito_client_secret = module.cognito.car-rental-service-client-secret
-  db_host               = module.rds.host
-  db_port               = module.rds.port
-  db_name               = module.rds.db_name
-  db_username           = module.rds.username
+  cognito_user_pool_id              = module.cognito.user_pool_id
+  secret_manager_cognito_client_arn = module.cognito.secret_manager_car_rental_service_cognito_client_arn
+  db_host                           = module.rds.host
+  db_port                           = module.rds.port
+  db_name                           = module.rds.db_name
+  db_username                       = module.rds.username
+  secret_manager_rds_arn            = module.rds.secret_manger_arn
 }
 
 

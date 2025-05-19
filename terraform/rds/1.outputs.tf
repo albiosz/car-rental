@@ -14,3 +14,6 @@ output "username" {
   value = aws_db_instance.car_rental.username
 }
 
+output "secret_manger_arn" {
+  value = aws_secretsmanager_secret.rds.arn
+}
